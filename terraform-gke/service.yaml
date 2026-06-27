@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudcreators-service
+  namespace: cloudcreators
+spec:
+  type: LoadBalancer
+  selector:
+    app: cloudcreators-app
+  ports:
+    - name: frontend
+      port: 80
+      targetPort: 3000
+
+    - name: backend
+      port: 8000
+      targetPort: 8000

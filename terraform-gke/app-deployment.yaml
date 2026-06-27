@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudcreators-app
+  namespace: cloudcreators
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudcreators-app
+  template:
+    metadata:
+      labels:
+        app: cloudcreators-app
+    spec:
+      containers:
+      - name: cloudcreators-app
+        image: asia-south1-docker.pkg.dev/total-vertex-478310-e7/myrepo/app:v14
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        - containerPort: 8000
+
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: cloudcreators-secret
+              key: MONGO_URI
+
+        - name: DB_NAME
+          value: "myDB"
+
+        - name: TBL_EnvironmentOnboarding
+          value: "environmentOnboarding"
+
+        - name: TBL_triggers
+          value: "triggers"
+
+        - name: TBL_StandardConfig
+          value: "standardConfig"
+
+        - name: TBL_SignUp
+          value: "signupdata"
+
+        - name: TBL_Costing
+          value: "Cost_Insights"
